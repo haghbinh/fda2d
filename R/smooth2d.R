@@ -46,8 +46,9 @@ smooth.2dbasis <- function(s,u,y,e,f){
     k <- (j-1)*m+i
     Phi[k,] <- c(E0[i,]%*%t(F0[j,]))
   }
-  c_hat <- lsfit(Phi,c(y),intercept=FALSE)$coef
-  c_mat <- matrix(c_hat,nrow = p,ncol = q)
+  c_hat0 <- lsfit(Phi,c(y),intercept=FALSE)$coef
+  c_mat <- matrix(c_hat0,nrow = p,ncol = q)
+  # c_mat <- matrix(c(c_hat(E0,F0,c(y))),nrow = p,ncol = q)
   x <- bifd(c_mat,e,f)
   return(x)
 }
