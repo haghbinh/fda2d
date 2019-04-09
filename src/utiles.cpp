@@ -23,6 +23,6 @@ arma::mat c_hat(arma::mat E0,arma::mat F0,arma::colvec cy){
         //arma::trans(cy(arma::span(0,p*q-1)));
     }
   }
-  arma::mat coef = arma::solve(Phi, cy);
+  arma::colvec coef = arma::solve(Phi, cy);
   return coef;
 }
