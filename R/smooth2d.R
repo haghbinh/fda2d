@@ -40,14 +40,15 @@ smooth.2dbasis <- function(s,u,y,e,f){
   n <- ncol(y)
   E0 <- eval.basis(s,e)#m*p
   F0 <- eval.basis(u,f)#n*q
-  Phi <- matrix(NA,nrow = m*n,ncol = p*q)
-  for(j in 1:n) for(i in 1:m)
-  {
-    k <- (j-1)*m+i
-    Phi[k,] <- c(E0[i,]%*%t(F0[j,]))
-  }
-  c_hat <- lsfit(Phi,c(y),intercept=FALSE)$coef
-  c_mat <- matrix(c_hat,nrow = p,ncol = q)
+  # Phi <- matrix(NA,nrow = m*n,ncol = p*q)
+  # for(j in 1:n) for(i in 1:m)
+  # {
+  #   k <- (j-1)*m+i
+  #   Phi[k,] <- c(E0[i,]%*%t(F0[j,]))
+  # }
+  # c_hat0 <- lsfit(Phi,c(y),intercept=FALSE)$coef
+  # c_mat <- matrix(c_hat0,nrow = p,ncol = q)
+  c_mat <- matrix(c(c_hat(E0,F0,c(y))),nrow = p,ncol = q)
   x <- bifd(c_mat,e,f)
   return(x)
 }
