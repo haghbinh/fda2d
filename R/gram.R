@@ -28,34 +28,50 @@ B=kronecker(eval_b_d1,eval_b_d2)
 
 # Gram matrix generation function
 
-# can specify univariate bases matrices, bivariate basis matrix, delta x and delta y for integration, 
+# can specify univariate bases matrices, bivariate basis matrix, delta x and delta y for integration,
 #and a tag which will specify the integration technique to be implemented
 
 
-gram <- function(B_1 = NULL,B_2 = NULL,dx,dy, B = NULL ,tag = NULL){
-  
+gram <- function(B_1 = NULL,B_2 = NULL,dx,dy, B = NULL ,method = NULL){
+
   if(is.null(B)==TRUE){
-    
+
     B=kronecker(B_1,B_2)
-    
+
   }
-  
-    if(tag=="rectangular" || is.null(tag)==TRUE){ # requires specification of dx and dy for integrations
-      
-      G <- delta_x*delta_y*t(B)%*%B
-      
+
+    if(method=="rectangular" || is.null(method)==TRUE){ # requires specification of dx and dy for integrations
+
+      G <- dx*dy*t(B)%*%B
+
+    } else if(method=="trapezoid"){ # future numerical integration option
+
+
+    } else if(method=="simpson"){ # future numerical integration option
+
+
     }
 
   return(G)
 
 }
 
-G = gram(B = B, dx = delta_x, dy = delta_y)
+G = gram(B = eval_b_d1, dx = delta_x, dy = 1)
 
-# Image of Gram matrix shows good results
+# Check results
 
-image(G)
+fda_pack_result <- inprod(b_d1,b_d1)
 
-B_d1d2 <- bifd(B)
+print(fda_pack_result)
 
-G_fda <- inprod(B)
+print(G)
+
+norm(G-fda_pack_result,type="F") # Frobenius norm to check accuracy
+
+# Image of G compared to fda package results
+
+par(mfrow=c(1,2))
+
+image(G,main="Gram Function")
+
+image(fda_pack_result,main="FDA package results")
